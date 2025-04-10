@@ -7,12 +7,11 @@ public class Customer : AggregateRoot<CustomerId>
 {
     private Customer() { }
 
-    public Customer(string firstName, string lastName, string address, string postalCode)
+    public Customer(string firstName, string lastName, Address address)
     {
         FirstName = firstName;
         LastName = lastName;
         Address = address;
-        PostalCode = postalCode;
     }
 
     // optimize for EF Core
@@ -23,8 +22,7 @@ public class Customer : AggregateRoot<CustomerId>
 
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
-    public string Address { get; private set; } = null!;
-    public string PostalCode { get; private set; } = null!;
+    public Address Address { get; private set; } = null!;
 
     private readonly List<Order> _orders = [];
     public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();

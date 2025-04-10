@@ -27,13 +27,28 @@ internal class CustomerEntityTypeConfigurations : IEntityTypeConfiguration<Custo
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(c => c.Address)
-            .IsRequired()
-            .HasMaxLength(100);
-        
-        builder.Property(c => c.PostalCode)
-            .IsRequired()
-            .HasMaxLength(20);
+        builder.OwnsOne(c => c.Address, addressBuilder =>
+        {
+            addressBuilder.Property(a => a.Street)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasColumnName("Street");
+
+            addressBuilder.Property(a => a.City)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("City");
+
+            addressBuilder.Property(a => a.State)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("State");
+
+            addressBuilder.Property(a => a.PostalCode)
+                .IsRequired()
+                .HasMaxLength(20)
+                .HasColumnName("PostalCode");
+        });
 
         builder.Property(x => x.IsActive)
             .IsRequired();
