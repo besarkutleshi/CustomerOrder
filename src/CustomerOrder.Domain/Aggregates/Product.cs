@@ -5,6 +5,8 @@ namespace CustomerOrder.Domain.Aggregates;
 
 public class Product : AggregateRoot<ProductId>
 {
+    private Product() { }
+
     public Product(ProductId id, string name, Money price)
         : base(id)
     {
@@ -13,5 +15,5 @@ public class Product : AggregateRoot<ProductId>
     }
 
     public string Name { get; private set; } = null!;
-    public Money Price { get; private set; }
+    public Money Price { get; private set; } = null!;
 }

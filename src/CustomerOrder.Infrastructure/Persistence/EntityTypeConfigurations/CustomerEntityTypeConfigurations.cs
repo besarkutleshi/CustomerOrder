@@ -16,7 +16,7 @@ internal class CustomerEntityTypeConfigurations : IEntityTypeConfiguration<Custo
         builder.Property(x => x.Id)
             .HasConversion(
                 id => id.Id,
-                id => new CustomerId(id)
+                id => CustomerId.Create(id)
             );
 
         builder.Property(c => c.FirstName)

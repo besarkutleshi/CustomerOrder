@@ -4,6 +4,8 @@ namespace CustomerOrder.Domain.ValueObjects;
 
 public class OrderItem : ValueObject
 {
+    private OrderItem() { }
+
     public OrderItem(ProductId productId, int quantity)
     {
         ProductId = productId;

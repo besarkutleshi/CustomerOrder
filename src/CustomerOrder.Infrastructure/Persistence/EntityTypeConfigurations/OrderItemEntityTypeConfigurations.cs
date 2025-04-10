@@ -13,6 +13,9 @@ internal class OrderItemEntityTypeConfigurations
             .IsRequired();
 
         orderItemsBuilder.Property(x => x.ProductId)
-            .IsRequired();
+            .HasConversion(
+                id => id.Id,
+                id => ProductId.Create(id)
+            );
     }
 }

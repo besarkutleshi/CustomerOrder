@@ -6,7 +6,7 @@ public class CustomerId : ValueObject
 {
     public int Id { get; set; }
 
-    public CustomerId(int id)
+    private CustomerId(int id)
     {
         Id = id;
     }

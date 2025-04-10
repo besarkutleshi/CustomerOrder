@@ -5,12 +5,20 @@ using CustomerOrder.Domain.ValueObjects;
 namespace CustomerOrder.Domain.Aggregates;
 public class Customer : AggregateRoot<CustomerId>
 {
+    private Customer() { }
+
     public Customer(string firstName, string lastName, string address, string postalCode)
     {
         FirstName = firstName;
         LastName = lastName;
         Address = address;
         PostalCode = postalCode;
+    }
+
+    // optimize for EF Core
+    public Customer(List<Order> orders)
+    {
+        _orders = orders;
     }
 
     public string FirstName { get; private set; } = null!;

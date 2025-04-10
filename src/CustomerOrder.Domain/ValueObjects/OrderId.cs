@@ -1,9 +1,11 @@
-﻿namespace CustomerOrder.Domain.ValueObjects;
-public class OrderId
+﻿using CustomerOrder.Common.DDD;
+
+namespace CustomerOrder.Domain.ValueObjects;
+public class OrderId : ValueObject
 {
     public int Id { get; set; }
 
-    public OrderId(int id)
+    private OrderId(int id)
     {
         Id = id;
     }
@@ -14,5 +16,10 @@ public class OrderId
             throw new ArgumentException("Order ID must be greater than zero.", nameof(id));
 
         return new OrderId(id);
+    }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Id;
     }
 }

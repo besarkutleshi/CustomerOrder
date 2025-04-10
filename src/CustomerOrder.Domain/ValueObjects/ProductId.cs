@@ -3,7 +3,7 @@ public class ProductId
 {
     public int Id { get; set; }
 
-    public ProductId(int id)
+    private ProductId(int id)
     {
         Id = id;
     }
