@@ -26,4 +26,11 @@ public class Customer : AggregateRoot<CustomerId>
 
     private readonly List<Order> _orders = [];
     public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();
+
+    public void Update(string firstName, string lastName, Address address)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Address = address;
+    }
 }

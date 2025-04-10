@@ -25,11 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CustomerOrder.Application\CustomerOrder.Application.csproj" />
     <ProjectReference Include="..\CustomerOrder.Domain\CustomerOrder.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositorie\" />
   </ItemGroup>
 
 </Project>

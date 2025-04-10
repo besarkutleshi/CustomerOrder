@@ -16,6 +16,13 @@ public class GenericRepository<T, TId> : IGenericRepository<T, TId> where T : Ag
         _dbSet = context.Set<T>();
     }
 
+    public async Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
+    }
+
     public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _dbSet.ToListAsync(cancellationToken);
