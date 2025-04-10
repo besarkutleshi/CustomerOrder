@@ -11,26 +11,6 @@ public abstract class Entity<TId>
         Id = id;
     }
 
-    public string? CreatedByUserId { get; set; } = null!;
-    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
-    public string? UpdateByUserId { get; set; } = null!;
-    public DateTimeOffset? UpdateDate { get; set; }
-
-    public void SetCreatedByUserId(string userId)
-    {
-        CreatedByUserId = userId;
-        CreatedDate = DateTimeOffset.Now;
-    }
-
-    public void SetUpdatedByUserId(string userId)
-    {
-        UpdateByUserId = userId;
-        UpdateDate = DateTimeOffset.Now;
-    }
-
-    public string DateCreated() => CreatedDate.ToString();
-    public string DateUpdated() => UpdateDate.ToString() ?? "";
-
     public override bool Equals(object obj)
     {
         if (obj == null || obj.GetType() != GetType())
