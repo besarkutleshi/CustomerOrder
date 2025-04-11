@@ -1,16 +1,14 @@
-﻿using CustomerOrder.Domain.ValueObjects;
+﻿using CustomerOrder.Application.Features.Products.DTOs;
 
 namespace CustomerOrder.Application.Features.Customers.DTOs.Orders;
 public record OrderItemDto
 {
-    public OrderItemDto(ProductId productId, string productName, int quantity)
+    public OrderItemDto(ProductDto product, int quantity)
     {
-        ProductId = productId;
-        ProductName = productName;
+        Product = product;
         Quantity = quantity;
     }
 
-    public ProductId ProductId { get; set; }
-    public string ProductName { get; set; }
+    public ProductDto Product { get; set; }
     public int Quantity { get; set; }
 }

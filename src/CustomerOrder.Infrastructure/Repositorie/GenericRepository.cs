@@ -3,12 +3,13 @@ using CustomerOrder.Common.DDD;
 using CustomerOrder.Common.Extensions;
 using CustomerOrder.Common.Response;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace CustomerOrder.Infrastructure.Repositorie;
 public class GenericRepository<T, TId> : IGenericRepository<T, TId> where T : AggregateRoot<TId> where TId : ValueObject
 {
-    private readonly DbContext _context;
-    private readonly DbSet<T> _dbSet;
+    protected readonly DbContext _context;
+    protected readonly DbSet<T> _dbSet;
 
     public GenericRepository(DbContext context)
     {
@@ -23,9 +24,18 @@ public class GenericRepository<T, TId> : IGenericRepository<T, TId> where T : Ag
             .FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken, Expression<Func<T, bool>>? predicate = null)
     {
-        return await _dbSet.ToListAsync(cancellationToken);
+        if (predicate == null) return await _context.Set<T>().ToListAsync();
+
+        return await _dbSet.Where(predicate).AsNoTracking().ToListAsync(cancellationToken);
+    }
+
+    public async Task<Dictionary<TId, T>> GetAllAsyncDict(CancellationToken cancellationToken, Expression<Func<T, bool>>? predicate = null)
+    {
+        if (predicate == null) return await _context.Set<T>().ToDictionaryAsync(x => x.Id, cancellationToken);
+
+        return await _dbSet.Where(predicate).AsNoTracking().ToDictionaryAsync(x => x.Id, cancellationToken);
     }
 
     public async Task AddAsync(T entity, CancellationToken cancellationToken)

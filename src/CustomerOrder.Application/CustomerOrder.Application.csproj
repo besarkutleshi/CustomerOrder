@@ -12,8 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Customers\Queries\" />
-    <Folder Include="Features\Products\DTOs\" />
     <Folder Include="Features\Products\Commands\" />
     <Folder Include="Features\Products\Queries\" />
   </ItemGroup>
@@ -21,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="MediatR" Version="11.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 	  <PackageReference Include="Serilog" Version="4.2.0" />
 	  <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
