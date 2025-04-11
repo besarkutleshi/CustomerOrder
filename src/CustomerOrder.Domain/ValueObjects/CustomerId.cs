@@ -1,4 +1,5 @@
 ﻿using CustomerOrder.Common.DDD;
+using System.Text.Json.Serialization;
 
 namespace CustomerOrder.Domain.ValueObjects;
 
@@ -6,6 +7,7 @@ public class CustomerId : ValueObject
 {
     public int Id { get; set; }
 
+    [JsonConstructorAttribute]
     private CustomerId(int id)
     {
         Id = id;
@@ -13,9 +15,6 @@ public class CustomerId : ValueObject
 
     public static CustomerId Create(int id)
     {
-        if (id <= 0)
-            throw new ArgumentException("Customer ID must be greater than zero.", nameof(id));
-
         return new CustomerId(id);
     }
 

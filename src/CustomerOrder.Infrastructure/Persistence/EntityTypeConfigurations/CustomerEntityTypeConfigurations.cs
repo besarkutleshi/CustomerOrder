@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CustomerOrder.Domain.Aggregates;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using CustomerOrder.Domain.Aggregates;
 using CustomerOrder.Domain.ValueObjects;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CustomerOrder.Infrastructure.Persistence.EntityTypeConfigurations;
 
@@ -17,7 +17,8 @@ internal class CustomerEntityTypeConfigurations : IEntityTypeConfiguration<Custo
             .HasConversion(
                 id => id.Id,
                 id => CustomerId.Create(id)
-            );
+            )
+            .ValueGeneratedOnAdd();
 
         builder.Property(c => c.FirstName)
             .IsRequired()
@@ -54,5 +55,9 @@ internal class CustomerEntityTypeConfigurations : IEntityTypeConfiguration<Custo
             .IsRequired();
 
         builder.OwnsMany(x => x.Orders, ordersBuilder => OrderEntityTypeConfigurations.Configure(ordersBuilder));
+
+        builder.Metadata.FindNavigation(nameof(Customer.Orders))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.HasIndex(x => new { x.FirstName, x.LastName }).IsUnique();
     }
 }

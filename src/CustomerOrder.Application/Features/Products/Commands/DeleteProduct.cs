@@ -29,7 +29,9 @@ public class DeleteProduct
             if (product == null)
                 return Result.Failure(Error.NotFound("NotFound", [$"Product with id: '{request.ProductId.Id}' not found"]));
 
-            repo.Delete(product);
+            product.Deactivate();
+
+            repo.Update(product);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 

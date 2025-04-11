@@ -19,7 +19,7 @@ internal class CalculateOrderTotalPriceService : ICalculateOrderTotalPriceServic
         var customer = await _appDbContext.Customers
             .AsNoTracking()
             .Include(x => x.Orders.Where(o => o.Id.Id == orderId.Id))
-            .Select(x => new Customer(x.Orders.ToList()))
+            //.Select(x => new Customer { })
             .FirstOrDefaultAsync(x => x.Id.Id == customerId.Id, cancellationToken) 
                 ?? throw new ArgumentException($"There is no Customer with id: '{customerId.Id}'");
         

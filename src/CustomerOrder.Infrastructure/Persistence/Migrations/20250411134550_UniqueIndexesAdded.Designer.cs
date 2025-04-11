@@ -4,6 +4,7 @@ using CustomerOrder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerOrder.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250411134550_UniqueIndexesAdded")]
+    partial class UniqueIndexesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,6 +80,94 @@ namespace CustomerOrder.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("CustomerOrder.Domain.Aggregates.Customer", b =>
                 {
+                    b.OwnsMany("CustomerOrder.Domain.Entities.Order", "Orders", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<int>("CustomerId")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("OrderDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("Status")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.HasKey("Id", "CustomerId");
+
+                            b1.HasIndex("CustomerId");
+
+                            b1.ToTable("Orders", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerId");
+
+                            b1.OwnsOne("CustomerOrder.Domain.ValueObjects.Money", "TotalPrice", b2 =>
+                                {
+                                    b2.Property<int>("OrderId")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("OrderCustomerId")
+                                        .HasColumnType("int");
+
+                                    b2.Property<string>("Currency")
+                                        .IsRequired()
+                                        .HasMaxLength(20)
+                                        .HasColumnType("nvarchar(20)")
+                                        .HasColumnName("Currency");
+
+                                    b2.Property<decimal>("Value")
+                                        .HasColumnType("decimal(18,2)")
+                                        .HasColumnName("TotalPrice");
+
+                                    b2.HasKey("OrderId", "OrderCustomerId");
+
+                                    b2.ToTable("Orders");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("OrderId", "OrderCustomerId");
+                                });
+
+                            b1.OwnsMany("CustomerOrder.Domain.ValueObjects.OrderItem", "OrderItems", b2 =>
+                                {
+                                    b2.Property<int>("OrderId")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("OrderCustomerId")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("int");
+
+                                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b2.Property<int>("Id"));
+
+                                    b2.Property<int>("ProductId")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("Quantity")
+                                        .HasColumnType("int");
+
+                                    b2.HasKey("OrderId", "OrderCustomerId", "Id");
+
+                                    b2.ToTable("OrderItems", (string)null);
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("OrderId", "OrderCustomerId");
+                                });
+
+                            b1.Navigation("OrderItems");
+
+                            b1.Navigation("TotalPrice")
+                                .IsRequired();
+                        });
+
                     b.OwnsOne("CustomerOrder.Domain.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<int>("CustomerId")
@@ -108,98 +199,10 @@ namespace CustomerOrder.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("CustomerId");
 
-                            b1.ToTable("Customers", (string)null);
+                            b1.ToTable("Customers");
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
-                        });
-
-                    b.OwnsMany("CustomerOrder.Domain.Entities.Order", "Orders", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
-
-                            b1.Property<int>("CustomerId")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("OrderDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("Status")
-                                .IsRequired()
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)");
-
-                            b1.HasKey("Id", "CustomerId");
-
-                            b1.HasIndex("CustomerId");
-
-                            b1.ToTable("Orders", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("CustomerId");
-
-                            b1.OwnsMany("CustomerOrder.Domain.ValueObjects.OrderItem", "OrderItems", b2 =>
-                                {
-                                    b2.Property<int>("OrderId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("OrderCustomerId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int");
-
-                                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b2.Property<int>("Id"));
-
-                                    b2.Property<int>("ProductId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("Quantity")
-                                        .HasColumnType("int");
-
-                                    b2.HasKey("OrderId", "OrderCustomerId", "Id");
-
-                                    b2.ToTable("OrderItems", (string)null);
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("OrderId", "OrderCustomerId");
-                                });
-
-                            b1.OwnsOne("CustomerOrder.Domain.ValueObjects.Money", "TotalPrice", b2 =>
-                                {
-                                    b2.Property<int>("OrderId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("OrderCustomerId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<string>("Currency")
-                                        .IsRequired()
-                                        .HasMaxLength(20)
-                                        .HasColumnType("nvarchar(20)")
-                                        .HasColumnName("Currency");
-
-                                    b2.Property<decimal>("Value")
-                                        .HasColumnType("decimal(18,2)")
-                                        .HasColumnName("TotalPrice");
-
-                                    b2.HasKey("OrderId", "OrderCustomerId");
-
-                                    b2.ToTable("Orders", (string)null);
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("OrderId", "OrderCustomerId");
-                                });
-
-                            b1.Navigation("OrderItems");
-
-                            b1.Navigation("TotalPrice")
-                                .IsRequired();
                         });
 
                     b.Navigation("Address")
@@ -227,7 +230,7 @@ namespace CustomerOrder.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("ProductId");
 
-                            b1.ToTable("Products", (string)null);
+                            b1.ToTable("Products");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");

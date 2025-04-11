@@ -16,12 +16,15 @@ internal class ProductEntityTypeConfigurations : IEntityTypeConfiguration<Produc
             .HasConversion(
                 id => id.Id,
                 id => ProductId.Create(id)
-            );
+            )
+            .ValueGeneratedOnAdd();
 
         builder.Property(p => p.Name)
             .IsRequired()
             .HasMaxLength(100);
 
         builder.OwnsOne(t => t.Price, priceBuilder => MoneyConfigurations.ConfigureMoney(priceBuilder));
+
+        builder.HasIndex(x => x.Name).IsUnique();
     }
 }

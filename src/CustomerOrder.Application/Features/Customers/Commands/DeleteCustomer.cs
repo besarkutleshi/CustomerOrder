@@ -26,7 +26,8 @@ public class DeleteCustomer
             if (customer == null)
                 return Result.Failure(Error.NotFound("NotFound", [$"Customer with ID {request.CustomerId} not found."]));
 
-            repo.Delete(customer);
+            customer.Deactivate();
+            repo.Update(customer);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 

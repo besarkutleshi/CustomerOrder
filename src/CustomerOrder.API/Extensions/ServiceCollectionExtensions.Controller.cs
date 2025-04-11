@@ -13,16 +13,8 @@ public static partial class ServiceCollectionExtensions
             opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             opt.JsonSerializerOptions.WriteIndented = true;
+            opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
-
-        var jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        };
-        jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-
-        services.AddSingleton(jsonSerializerOptions);
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();

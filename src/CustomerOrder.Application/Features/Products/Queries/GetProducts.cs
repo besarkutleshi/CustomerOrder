@@ -1,4 +1,5 @@
-﻿using CustomerOrder.Application.Interfaces;
+﻿using CustomerOrder.Application.Features.Products.DTOs;
+using CustomerOrder.Application.Interfaces;
 using CustomerOrder.Common.Response;
 using CustomerOrder.Domain.Aggregates;
 using CustomerOrder.Domain.ValueObjects;
@@ -23,7 +24,9 @@ public class GetProducts
             var repo = _unitOfWork.Repository<Product, ProductId>();
             var result = await repo.GetAllPaginatedAsync(cancellationToken, request.PageNumber, request.PageSize);
 
-            return Result.Success(Success.Ok(result));
+            var dtos = result.Data.Select(x => new ProductDto(x.Id, x.Name, x.Price, x.IsActive)).ToList();
+
+            return Result.Success(Success.Ok(PaginatedResult<ProductDto>.Create(dtos, result.TotalRecords, result.PageNumber, result.PageSize)));
         }
     }
 }

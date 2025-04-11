@@ -6,9 +6,6 @@ using CustomerOrder.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServiceCollectionConfigurations(builder.Configuration);
 builder.Host.UseSerilog((context, configuration) =>
@@ -23,5 +20,7 @@ app.AddInfrastructureApplicationConfigurations();
 app.AddPersistentApplicationBuilderConfigurations();
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 app.Run();

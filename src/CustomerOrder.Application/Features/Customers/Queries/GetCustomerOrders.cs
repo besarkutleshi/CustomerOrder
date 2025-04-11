@@ -60,7 +60,7 @@ public class GetCustomerOrders
         {
             if (products.TryGetValue(productId, out var product))
             {
-                return new ProductDto(productId, product.Name, product.Price);
+                return new ProductDto(productId, product.Name, product.Price, product.IsActive);
             }
 
             throw new ArgumentException($"Product with id: '{productId.Id}' not found", nameof(productId));

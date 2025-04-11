@@ -16,7 +16,8 @@ internal class OrderEntityTypeConfigurations
             .HasConversion(
                 id => id.Id,
                 id => OrderId.Create(id)
-            );
+            )
+            .ValueGeneratedOnAdd();
 
         ordersBuilder.WithOwner().HasForeignKey("CustomerId");
 
@@ -30,5 +31,8 @@ internal class OrderEntityTypeConfigurations
         ordersBuilder.OwnsOne(x => x.TotalPrice, priceBuilder => MoneyConfigurations.ConfigureMoney(priceBuilder, "TotalPrice", "Currency"));
 
         ordersBuilder.OwnsMany(ordersBuilder => ordersBuilder.OrderItems, orderItemsBuilder => OrderItemEntityTypeConfigurations.Configure(orderItemsBuilder));
+
+        ordersBuilder.Navigation(x => x.OrderItems).Metadata.SetField("_items");
+        ordersBuilder.Navigation(x => x.OrderItems).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

@@ -14,17 +14,11 @@ public class Customer : AggregateRoot<CustomerId>
         Address = address;
     }
 
-    // optimize for EF Core
-    public Customer(List<Order> orders)
-    {
-        _orders = orders;
-    }
-
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
     public Address Address { get; private set; } = null!;
 
-    private readonly List<Order> _orders = [];
+    private List<Order> _orders = [];
     public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();
 
     public void Update(string firstName, string lastName, Address address)
@@ -32,5 +26,11 @@ public class Customer : AggregateRoot<CustomerId>
         FirstName = firstName;
         LastName = lastName;
         Address = address;
+    }
+
+    public void AddOrder(Order order)
+    {
+        _orders ??= [];
+        _orders.Add(order);
     }
 }

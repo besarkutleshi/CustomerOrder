@@ -9,9 +9,9 @@ public class Order : Entity<OrderId>
 
     public DateTime OrderDate { get; private set; } = DateTime.Now;
     public OrderStatus Status { get; private set; } = OrderStatus.Processing;
-    public Money TotalPrice { get; }
+    public Money TotalPrice { get; } = null!;
 
-    private readonly List<OrderItem> _items = [];
+    private List<OrderItem> _items = [];
     public IReadOnlyCollection<OrderItem> OrderItems => _items.AsReadOnly();
 
     public Order(Money totalPrice, List<OrderItem> orderItems)

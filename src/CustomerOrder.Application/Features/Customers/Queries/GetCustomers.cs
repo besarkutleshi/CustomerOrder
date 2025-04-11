@@ -23,7 +23,7 @@ public class GetCustomers
                 customerDtos = [];
                 foreach (var item in customers.Data)
                 {
-                    customerDtos.Add(new CustomerDto(item.Id, item.FirstName, item.LastName, item.Address));
+                    customerDtos.Add(new CustomerDto(item.Id, item.FirstName, item.LastName, item.Address, item.IsActive));
                 }
             }
 

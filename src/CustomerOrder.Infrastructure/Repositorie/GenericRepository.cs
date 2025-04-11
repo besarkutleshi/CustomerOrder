@@ -39,6 +39,7 @@ public class GenericRepository<T, TId> : IGenericRepository<T, TId> where T : Ag
 
     public async Task AddAsync(T entity, CancellationToken cancellationToken)
     {
+        entity.Activate();
         await _dbSet.AddAsync(entity, cancellationToken);
     }
 

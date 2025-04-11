@@ -8,9 +8,9 @@ using MediatR;
 namespace CustomerOrder.Application.Features.Customers.Commands;
 public class UpdateCustomer
 {
-    public record UpdateCustomerRecord(UpdateCustomerDto UpdateCustomerDto) : IRequest<Result>;
+    public record UpdateCustomerCommand(UpdateCustomerDto UpdateCustomerDto) : IRequest<Result>;
 
-    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerRecord, Result>
+    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Result>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,7 +19,7 @@ public class UpdateCustomer
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(UpdateCustomerRecord request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
             var repo = _unitOfWork.Repository<Customer, CustomerId>();
 
