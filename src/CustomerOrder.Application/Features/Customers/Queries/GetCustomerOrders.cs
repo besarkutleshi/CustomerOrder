@@ -27,7 +27,7 @@ public class GetCustomerOrders
             {
                 var products = await GetOrdersProductsAsync([.. customer.Orders], cancellationToken);
 
-                orders = customer.Orders.Select(item => new OrderDto(
+                orders = [.. customer.Orders.Select(item => new OrderDto(
                     item.OrderDate,
                     item.Status,
                     item.TotalPrice,
@@ -35,7 +35,7 @@ public class GetCustomerOrders
                         GetProduct(ot.ProductId, products),
                         ot.Quantity
                     )).ToList()
-                )).ToList();
+                )).OrderByDescending(x => x.OrderDate)];
             }
 
             return Result.Success(Success.Ok(orders));

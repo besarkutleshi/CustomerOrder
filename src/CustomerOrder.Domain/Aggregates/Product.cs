@@ -7,8 +7,7 @@ public class Product : AggregateRoot<ProductId>
 {
     private Product() { }
 
-    public Product(ProductId id, string name, Money price)
-        : base(id)
+    public Product(string name, Money price)
     {
         Name = name;
         Price = price;
@@ -16,4 +15,10 @@ public class Product : AggregateRoot<ProductId>
 
     public string Name { get; private set; } = null!;
     public Money Price { get; private set; } = null!;
+
+    public void Update(string name, Money price)
+    {
+        Name = name;
+        Price = price;
+    }
 }

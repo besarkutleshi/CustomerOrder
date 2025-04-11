@@ -20,7 +20,6 @@ public class GenericRepository<T, TId> : IGenericRepository<T, TId> where T : Ag
     public async Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
         return await _dbSet
-            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
     }
 
