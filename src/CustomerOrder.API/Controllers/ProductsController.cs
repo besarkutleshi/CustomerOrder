@@ -20,6 +20,13 @@ public class ProductsController : ControllerBase
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Gets the list of products.
+    /// </summary>
+    /// <param name="pageNumber">Page number.</param>
+    /// <param name="pageSize">Page Size</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>List of products DTOs.</returns>
     [HttpGet]
     public async Task<IActionResult> GetProducts(CancellationToken cancellationToken, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
@@ -28,6 +35,12 @@ public class ProductsController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Adds a new product.
+    /// </summary>
+    /// <param name="addProductDto">Product body.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>Added product body.</returns>
     [HttpPost]
     public async Task<IActionResult> AddProduct([FromBody] AddProductDto addProductDto, CancellationToken cancellationToken)
     {
@@ -36,6 +49,12 @@ public class ProductsController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Deletes a product.
+    /// </summary>
+    /// <param name="id">Product id.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>No Content.</returns>
     [HttpDelete("{id}")]    
     public async Task<IActionResult> DeleteProduct([FromRoute] int id, CancellationToken cancellationToken)
     {
@@ -44,6 +63,12 @@ public class ProductsController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Updates a product
+    /// </summary>
+    /// <param name="updateProductDto">Update product body.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>Updated product body.</returns>
     [HttpPut]
     public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto updateProductDto, CancellationToken cancellationToken)
     {

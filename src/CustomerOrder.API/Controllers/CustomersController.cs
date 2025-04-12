@@ -23,6 +23,12 @@ public class CustomersController : ControllerBase
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Adds a new customer.
+    /// </summary>
+    /// <param name="addCustomerDto">Add customer body</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>Added customer body.</returns>
     [HttpPost]
     public async Task<IActionResult> AddCustomer([FromBody] AddCustomerDto addCustomerDto, CancellationToken cancellationToken)
     {
@@ -32,6 +38,12 @@ public class CustomersController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Deletes a customer.
+    /// </summary>
+    /// <param name="id">Customer Id</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>No Content.</returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCustomer([FromRoute] int id, CancellationToken cancellationToken)
     {
@@ -41,6 +53,12 @@ public class CustomersController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Updates a customer.
+    /// </summary>
+    /// <param name="updateCustomerDto">Update customer body</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>Updated customer body.</returns>
     [HttpPut]
     public async Task<IActionResult> UpdateCustomer([FromBody] UpdateCustomerDto updateCustomerDto, CancellationToken cancellationToken)
     {
@@ -49,6 +67,13 @@ public class CustomersController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Gets the list of customers.
+    /// </summary>
+    /// <param name="pageNumber">Page number.</param>
+    /// <param name="pageSize">Page Size</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>List of customer DTOs.</returns>
     [HttpGet]
     public async Task<IActionResult> GetCustomers(CancellationToken cancellationToken, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
@@ -57,6 +82,12 @@ public class CustomersController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Gets the list of customer orders.
+    /// </summary>
+    /// <param name="id">Customer ID.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>List of order DTOs.</returns>
     [HttpGet("{id}/orders")]
     public async Task<IActionResult> GetCustomerOrders([FromRoute] int id, CancellationToken cancellationToken)
     {
@@ -65,6 +96,13 @@ public class CustomersController : ControllerBase
         return ActionResponse.Response(result);
     }
 
+    /// <summary>
+    /// Adds a new order to a customer.
+    /// </summary>
+    /// <param name="id">Customer ID.</param>
+    /// <param name="addOrderDto">Order body</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>Added order body.</returns>
     [HttpPost("{id}/order")]
     public async Task<IActionResult> AddOrder([FromRoute] int id, [FromBody] AddOrderDto addOrderDto, CancellationToken cancellationToken)
     {

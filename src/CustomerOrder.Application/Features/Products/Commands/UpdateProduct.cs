@@ -32,7 +32,7 @@ public class UpdateProduct
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
-            return Result.Success(Success.Ok());
+            return Result.Success(Success.Ok(request.UpdateProductDto));
         }
     }
 }

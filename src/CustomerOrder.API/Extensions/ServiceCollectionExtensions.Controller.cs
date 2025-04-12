@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Reflection;
 
 namespace CustomerOrder.API.Extensions;
 
@@ -17,7 +18,11 @@ public static partial class ServiceCollectionExtensions
         });
 
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
 
         return services;
     }
