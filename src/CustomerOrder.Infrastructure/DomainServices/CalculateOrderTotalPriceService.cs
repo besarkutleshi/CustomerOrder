@@ -1,5 +1,4 @@
-﻿using CustomerOrder.Domain.Aggregates;
-using CustomerOrder.Domain.Services;
+﻿using CustomerOrder.Domain.Services;
 using CustomerOrder.Domain.ValueObjects;
 using CustomerOrder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

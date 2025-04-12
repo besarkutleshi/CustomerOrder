@@ -27,7 +27,8 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
 
         RuleFor(x => x.UpdateProductDto.Id.Id)
             .GreaterThan(0)
-            .WithMessage("Id should be greater than 0.");
+            .WithMessage("Id must be greaeter than 0.")
+            .When(x => x.UpdateProductDto.Id != null!);
 
         RuleFor(x => x.UpdateProductDto.Name)
             .NotEmpty()
@@ -37,8 +38,11 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
 
         RuleFor(x => x.UpdateProductDto.Price)
             .NotNull()
-            .WithMessage("Price is required.")
-            .Must(price => price.Value > 0)
-            .WithMessage("Price must be greater than zero.");
+            .WithMessage("Price is required.");
+
+        RuleFor(x => x.UpdateProductDto.Price.Value)
+            .GreaterThan(0)
+            .WithMessage("Price must be greater than 0.")
+            .When(x => x.UpdateProductDto.Price != null!);
     }
 }

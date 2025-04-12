@@ -5,7 +5,7 @@ using CustomerOrder.Infrastructure.Persistence;
 using CustomerOrder.Infrastructure.Repositorie;
 
 namespace CustomerOrder.Infrastructure.Utils;
-internal class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
     private Dictionary<string, object> _repositories;

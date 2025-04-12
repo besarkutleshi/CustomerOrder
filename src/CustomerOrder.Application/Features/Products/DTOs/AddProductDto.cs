@@ -27,8 +27,11 @@ public class AddProductDtoValidator : AbstractValidator<AddProductCommand>
 
         RuleFor(x => x.AddProductDto.Price)
             .NotNull()
-            .WithMessage("Price is required.")
-            .Must(price => price.Value > 0)
-            .WithMessage("Price must be greater than zero.");
+            .WithMessage("Price is required.");
+
+        RuleFor(x => x.AddProductDto.Price.Value)
+            .GreaterThan(0)
+            .WithMessage("Price must be greater than zero.")
+            .When(x => x.AddProductDto.Price != null!);
     }
 }

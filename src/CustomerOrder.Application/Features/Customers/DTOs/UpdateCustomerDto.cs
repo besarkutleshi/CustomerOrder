@@ -30,7 +30,8 @@ public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerCommand>
 
         RuleFor(x => x.UpdateCustomerDto.Id.Id)
             .GreaterThan(0)
-            .WithMessage("Customer ID must be greater than 0.");
+            .WithMessage("Customer ID must be greater than 0.")
+            .When(x => x.UpdateCustomerDto.Id != null!);
 
         RuleFor(x => x.UpdateCustomerDto.FirstName)
             .NotEmpty()
@@ -46,18 +47,22 @@ public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerCommand>
 
         RuleFor(x => x.UpdateCustomerDto.Address.Street)
             .NotEmpty()
-            .WithMessage("Street is required.");
+            .WithMessage("Street is required.")
+            .When(x => x.UpdateCustomerDto.Address != null!);
 
         RuleFor(x => x.UpdateCustomerDto.Address.City)
             .NotEmpty()
-            .WithMessage("City is required.");
+            .WithMessage("City is required.")
+            .When(x => x.UpdateCustomerDto.Address != null!);
 
         RuleFor(x => x.UpdateCustomerDto.Address.State)
             .NotEmpty()
-            .WithMessage("State is required.");
+            .WithMessage("State is required.")
+            .When(x => x.UpdateCustomerDto.Address != null!);
 
         RuleFor(x => x.UpdateCustomerDto.Address.PostalCode)
             .NotEmpty()
-            .WithMessage("Postal code is required.");
+            .WithMessage("Postal code is required.")
+            .When(x => x.UpdateCustomerDto.Address != null!);
     }
 }

@@ -20,9 +20,12 @@ public class AddOrderItemValidator : AbstractValidator<AddOrderItemDto>
     {
         RuleFor(x => x.ProductId)
             .NotNull()
-            .WithMessage("Product ID is required.")
-            .Must(x => x.Id > 0)
-            .WithMessage("Id must be greater than zero.");
+            .WithMessage("Product ID is required.");
+
+        RuleFor(x => x.ProductId.Id)
+            .GreaterThan(0)
+            .WithMessage("Product ID must be greater than zero.")
+            .When(x => x.ProductId != null!);
 
         RuleFor(x => x.Quantity)
             .NotNull()

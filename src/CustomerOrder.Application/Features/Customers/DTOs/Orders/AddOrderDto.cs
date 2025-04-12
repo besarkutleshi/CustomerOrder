@@ -20,15 +20,21 @@ public class AddOrderValidator : AbstractValidator<AddOrderDto>
     {
         RuleFor(x => x.TotalPrice)
             .NotNull()
-            .WithMessage("Total price is required.")
-            .Must(x => x.Value > 0)
-            .WithMessage("Total price must be greater than zero.");
+            .WithMessage("Total price is required.");
+
+        RuleFor(x => x.TotalPrice.Value)
+            .GreaterThan(0)
+            .WithMessage("Total price must be greater than zero.")
+            .When(x => x.TotalPrice != null!);
 
         RuleFor(x => x.Items)
             .NotEmpty()
-            .WithMessage("Items are required.")
-            .Must(x => x.Count > 0)
-            .WithMessage("At least one item is required.");
+            .WithMessage("Items are required.");
+
+        RuleFor(x => x.Items.Count)
+            .GreaterThan(0)
+            .WithMessage("Items count must be greater than zero.")
+            .When(x => x.Items != null!);
 
         RuleForEach(x => x.Items)
             .SetValidator(new AddOrderItemValidator())

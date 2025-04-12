@@ -26,7 +26,7 @@ public static class ActionResponse
         return httpStatusCode switch
         {
             HttpStatusCode.OK => new OkObjectResult(result),
-            HttpStatusCode.NoContent => new OkObjectResult(result),
+            HttpStatusCode.NoContent => new NoContentResult(),
             HttpStatusCode.Created => new CreatedResult("resurceUri", result),
             HttpStatusCode.Accepted => new AcceptedResult("resurceUri", result),
             HttpStatusCode.BadRequest => new BadRequestObjectResult(result),
